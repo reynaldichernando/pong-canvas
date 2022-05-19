@@ -21,13 +21,13 @@ class Ball {
         c.fillStyle = this.color;
         c.fill();
 
-        c.strokeStyle = 'red';
-        c.beginPath();
-        c.setLineDash([0]);
-        c.moveTo(0, this.y);
-        c.lineTo(canvas.width, this.y);
-        c.closePath();
-        c.stroke();
+        // c.strokeStyle = 'red';
+        // c.beginPath();
+        // c.setLineDash([0]);
+        // c.moveTo(0, this.y);
+        // c.lineTo(canvas.width, this.y);
+        // c.closePath();
+        // c.stroke();
     }
 
     update() {
@@ -93,17 +93,17 @@ while ((0.15 < random && random < 0.35) || (0.65 < random && random < 0.85) || r
 
 let angle = random * Math.PI * 2;
 
-let modifier = 2;
+let modifier = 5;
 
 let ball = new Ball(canvas.width / 2, canvas.height / 2, 8, 'white', {
     x: Math.cos(angle) * modifier,
     y: Math.sin(angle) * modifier
 });
 
-let paddleWidth = 50;
+let paddleWidth = 4;
 let paddleHeight = 100;
 let player = new Player(
-    50,
+    10,
     canvas.height / 2 - paddleHeight / 2,
     paddleWidth,
     paddleHeight,
@@ -145,29 +145,28 @@ function animate() {
         else if (ball.y >= opponent.y + opponent.h) opponent.down();
     }
 
-    // ball logic
-    if (ball.x - ball.radius < player.x + player.w &&
-        ball.x + ball.radius > player.x &&
-        ball.y >= player.y &&
-        ball.y <= player.y + player.h
+    // collision logic
+    if (player.x + player.w > ball.x - ball.radius
+        && player.x < ball.x + ball.radius
+        && ball.y > player.y
+        && player.y + player.h > ball.y
     ) {
-        ball.velocity.x *= -1;
-        console.log("collide with x");
-    }
-    if (ball.x >= player.x &&
-        ball.x <= player.x + player.w &&
-        ball.y + ball.radius > player.y &&
-        ball.y - ball.radius < player.y + player.h
-    ) {
-        ball.velocity.y *= -1;
-        console.log("collide with y");
+        if (ball.y + ball.radius > player.y) {
+            ball.x = player.x + player.w + ball.radius;
+        }
+        ball.velocity.x *= -1.01;
     }
 
-    if (opponent.x - ball.x - ball.radius < 1 &&
-        ball.x + ball.radius < opponent.x &&
-        ball.y >= opponent.y &&
-        ball.y <= opponent.y + opponent.h
-    ) ball.velocity.x *= -1;
+    if (opponent.x < ball.x + ball.radius
+        && opponent.x + opponent.w > ball.x - ball.radius
+        && ball.y > opponent.y
+        && opponent.y + opponent.h > ball.y
+    ) {
+        if (ball.y + ball.radius > opponent.y) {
+            ball.x = opponent.x - ball.radius;
+        }
+        ball.velocity.x *= -1.01;
+    }
 
     opponent.update();
     player.update();
