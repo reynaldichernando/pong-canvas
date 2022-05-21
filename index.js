@@ -1,5 +1,6 @@
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
+let bounce = new Audio('./bounce.mp3');
 
 canvas.width = 800;
 canvas.height = 600;
@@ -240,6 +241,7 @@ function animate() {
             x: Math.cos(angle) * ball.modifier,
             y: Math.sin(angle) * ball.modifier
         }
+        bounce.play();
     }
 
     if (opponent.x < ball.x + ball.radius
@@ -271,6 +273,7 @@ function animate() {
             x: Math.cos(angle) * ball.modifier,
             y: Math.sin(angle) * ball.modifier
         }
+        bounce.play();
     }
 
     if (gameRunning && (ball.x < 0 || ball.x > canvas.width)) {
