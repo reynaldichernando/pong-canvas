@@ -79,13 +79,13 @@ class Player {
 }
 
 class Opponent extends Player {
-    constructor(x, y, w, h, color) {
+    constructor(x, y, w, h, color, difficulty = 40) {
         super(x, y, w, h, color);
+        this.difficulty = difficulty;
     }
 }
 
 let random = Math.random();
-console.log(random);
 
 while ((0.15 < random && random < 0.35) || (0.65 < random && random < 0.85) || random == 0.5 || random == 0) {
     random = Math.random();
@@ -114,12 +114,16 @@ let opponent = new Opponent(
     canvas.height / 2 - paddleHeight / 2,
     paddleWidth,
     paddleHeight,
-    'white'
+    'white',
+    50
 );
+
+let counter = 0;
 
 let animationId;
 function animate() {
     animationId = requestAnimationFrame(animate);
+    counter += 1;
 
     // table
     c.fillStyle = 'black';
@@ -139,10 +143,22 @@ function animate() {
     if (keys["ArrowUp"]) player.up();
     if (keys["ArrowDown"]) player.down();
 
+    if (counter == 60) {
+        counter = 0;
+    }
+
     // opponent logic
-    if (ball.x > canvas.width / 2 && ball.x > ball.prevX) {
-        if (ball.y <= opponent.y) opponent.up();
-        else if (ball.y >= opponent.y + opponent.h) opponent.down();
+    if (counter < opponent.difficulty
+        && ball.x > canvas.width / 2
+        && ball.x > ball.prevX
+        && ball.x < canvas.width
+    ) {
+        if (ball.y <= opponent.y) {
+            opponent.up();
+        }
+        else if (ball.y >= opponent.y + opponent.h) {
+            opponent.down();
+        }
     }
 
     // collision logic
@@ -151,10 +167,11 @@ function animate() {
         && ball.y > player.y
         && player.y + player.h > ball.y
     ) {
-        if (ball.y + ball.radius > player.y) {
+        if (ball.y + ball.radius > player.y
+            || ball.y - ball.radius < player.y + player.h) {
             ball.x = player.x + player.w + ball.radius;
         }
-        ball.velocity.x *= -1.01;
+        ball.velocity.x *= -1.05;
     }
 
     if (opponent.x < ball.x + ball.radius
@@ -162,10 +179,11 @@ function animate() {
         && ball.y > opponent.y
         && opponent.y + opponent.h > ball.y
     ) {
-        if (ball.y + ball.radius > opponent.y) {
+        if (ball.y + ball.radius > opponent.y
+            || ball.y - ball.radius < opponent.y + opponent.h) {
             ball.x = opponent.x - ball.radius;
         }
-        ball.velocity.x *= -1.01;
+        ball.velocity.x *= -1.05;
     }
 
     opponent.update();
