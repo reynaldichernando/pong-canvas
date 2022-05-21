@@ -14,16 +14,16 @@ body {
 main {
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
+    position: relative;
 }
 
 #scoreboard {
     width: 100%;
     display: flex;
     align-items: center;
-    position: relative;
-    top: 150px;
+    position: absolute;
+    top: 50px;
 }
 
 .score {
