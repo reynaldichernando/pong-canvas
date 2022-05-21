@@ -138,7 +138,7 @@ function init() {
     ) random = Math.random();
 
     angle = random * Math.PI * 2;
-    modifier = 5;
+    modifier = 6;
     counter = 0;
 
     paddleWidth = 4;
@@ -188,7 +188,27 @@ function animate() {
             || ball.y - ball.radius < player.y + player.h) {
             ball.x = player.x + player.w + ball.radius;
         }
-        ball.velocity.x *= -1.05;
+
+        let segmentDistance = ball.y - player.y;
+
+        if (segmentDistance > 80) {
+            angle = 0.10 * Math.PI * 2;
+        } else if (segmentDistance > 60) {
+            angle = 0.05 * Math.PI * 2;
+        } else if (segmentDistance > 40) {
+            angle = 0 * Math.PI * 2;
+        } else if (segmentDistance > 20) {
+            angle = 0.95 * Math.PI * 2;
+        } else {
+            angle = 0.90 * Math.PI * 2;
+        }
+
+        modifier *= 1.05
+
+        ball.velocity = {
+            x: Math.cos(angle) * modifier,
+            y: Math.sin(angle) * modifier
+        }
     }
 
     if (opponent.x < ball.x + ball.radius
@@ -200,7 +220,26 @@ function animate() {
             || ball.y - ball.radius < opponent.y + opponent.h) {
             ball.x = opponent.x - ball.radius;
         }
-        ball.velocity.x *= -1.05;
+        let segmentDistance = ball.y - opponent.y;
+
+        if (segmentDistance > 80) {
+            angle = 0.40 * Math.PI * 2;
+        } else if (segmentDistance > 60) {
+            angle = 0.45 * Math.PI * 2;
+        } else if (segmentDistance > 40) {
+            angle = 0.5 * Math.PI * 2;
+        } else if (segmentDistance > 20) {
+            angle = 0.55 * Math.PI * 2;
+        } else {
+            angle = 0.60 * Math.PI * 2;
+        }
+
+        modifier *= 1.05
+
+        ball.velocity = {
+            x: Math.cos(angle) * modifier,
+            y: Math.sin(angle) * modifier
+        }
     }
 
     table.draw();
