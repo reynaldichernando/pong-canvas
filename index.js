@@ -24,14 +24,14 @@ class Table {
 }
 
 class Ball {
-    constructor(x, y, radius, color, velocity, speed, modifier) {
+    constructor(x, y, radius, color, direction, speed, modifier) {
         this.x = x;
         this.y = y;
         this.prevX = x;
         this.prevY = y;
         this.radius = radius;
         this.color = color;
-        this.velocity = velocity;
+        this.direction = direction;
         this.speed = speed;
         this.modifier = modifier;
     }
@@ -39,22 +39,7 @@ class Ball {
     reset() {
         this.x = canvas.width / 2;
         this.y = canvas.height / 2;
-
-        let random = 0;
-        while ((0.15 < random && random < 0.35)
-            || (0.65 < random && random < 0.85)
-            || random == 0.5
-            || random == 0
-        ) random = Math.random();
-
-        angle = random * Math.PI * 2;
-        this.velocity = {
-            x: Math.cos(angle) * this.speed,
-            y: Math.sin(angle) * this.speed
-        }
-
         this.modifier = this.speed;
-
     }
 
     draw() {
@@ -68,14 +53,14 @@ class Ball {
         this.draw();
         if (this.y - this.radius - 0 < 1 ||
             canvas.height - this.y - this.radius < 1) {
-            this.velocity.y *= -1;
+            this.direction.y *= -1;
         }
 
         this.prevX = this.x;
         this.prevY = this.y;
 
-        this.x = this.x + this.velocity.x;
-        this.y = this.y + this.velocity.y;
+        this.x = this.x + this.direction.x * this.modifier;
+        this.y = this.y + this.direction.y * this.modifier;
     }
 }
 
@@ -174,8 +159,8 @@ function init() {
     paddleHeight = 100;
 
     ball = new Ball(canvas.width / 2, canvas.height / 2, 8, 'white', {
-        x: Math.cos(angle) * modifier,
-        y: Math.sin(angle) * modifier
+        x: Math.cos(angle),
+        y: Math.sin(angle)
     }, modifier, modifier);
     player = new Player(
         10,
@@ -237,9 +222,9 @@ function animate() {
 
         ball.modifier *= 1.05
 
-        ball.velocity = {
-            x: Math.cos(angle) * ball.modifier,
-            y: Math.sin(angle) * ball.modifier
+        ball.direction = {
+            x: Math.cos(angle),
+            y: Math.sin(angle)
         }
         bounce.play();
     }
@@ -269,9 +254,9 @@ function animate() {
 
         ball.modifier *= 1.05
 
-        ball.velocity = {
-            x: Math.cos(angle) * ball.modifier,
-            y: Math.sin(angle) * ball.modifier
+        ball.direction = {
+            x: Math.cos(angle),
+            y: Math.sin(angle)
         }
         bounce.play();
     }
