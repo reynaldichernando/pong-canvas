@@ -23,7 +23,7 @@ class Table {
 }
 
 class Ball {
-    constructor(x, y, radius, color, velocity) {
+    constructor(x, y, radius, color, velocity, speed, modifier) {
         this.x = x;
         this.y = y;
         this.prevX = x;
@@ -31,6 +31,29 @@ class Ball {
         this.radius = radius;
         this.color = color;
         this.velocity = velocity;
+        this.speed = speed;
+        this.modifier = modifier;
+    }
+
+    reset() {
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
+
+        let random = 0;
+        while ((0.15 < random && random < 0.35)
+            || (0.65 < random && random < 0.85)
+            || random == 0.5
+            || random == 0
+        ) random = Math.random();
+
+        angle = random * Math.PI * 2;
+        this.velocity = {
+            x: Math.cos(angle) * this.speed,
+            y: Math.sin(angle) * this.speed
+        }
+
+        this.modifier = this.speed;
+
     }
 
     draw() {
@@ -118,6 +141,7 @@ let random;
 let angle;
 let modifier;
 let counter;
+let gameRunning;
 
 let paddleWidth;
 let paddleHeight;
@@ -128,6 +152,9 @@ let ball;
 let player;
 let opponent;
 let table;
+
+let playerScore;
+let opponentScore;
 
 function init() {
     random = 0;
@@ -140,6 +167,7 @@ function init() {
     angle = random * Math.PI * 2;
     modifier = 6;
     counter = 0;
+    gameRunning = true;
 
     paddleWidth = 4;
     paddleHeight = 100;
@@ -147,7 +175,7 @@ function init() {
     ball = new Ball(canvas.width / 2, canvas.height / 2, 8, 'white', {
         x: Math.cos(angle) * modifier,
         y: Math.sin(angle) * modifier
-    });
+    }, modifier, modifier);
     player = new Player(
         10,
         canvas.height / 2 - paddleHeight / 2,
@@ -164,6 +192,9 @@ function init() {
         50
     );
     table = new Table();
+
+    playerScore = 0;
+    opponentScore = 0;
 }
 
 function animate() {
@@ -203,11 +234,11 @@ function animate() {
             angle = 0.90 * Math.PI * 2;
         }
 
-        modifier *= 1.05
+        ball.modifier *= 1.05
 
         ball.velocity = {
-            x: Math.cos(angle) * modifier,
-            y: Math.sin(angle) * modifier
+            x: Math.cos(angle) * ball.modifier,
+            y: Math.sin(angle) * ball.modifier
         }
     }
 
@@ -234,12 +265,26 @@ function animate() {
             angle = 0.60 * Math.PI * 2;
         }
 
-        modifier *= 1.05
+        ball.modifier *= 1.05
 
         ball.velocity = {
-            x: Math.cos(angle) * modifier,
-            y: Math.sin(angle) * modifier
+            x: Math.cos(angle) * ball.modifier,
+            y: Math.sin(angle) * ball.modifier
         }
+    }
+
+    if (gameRunning && (ball.x < 0 || ball.x > canvas.width)) {
+        if (ball.x < 0) {
+            document.querySelector('#opponent').innerHTML = ++opponentScore;
+        }
+        else if (ball.x > canvas.width) {
+            document.querySelector('#player').innerHTML = ++playerScore;
+        }
+        gameRunning = false;
+        setTimeout(() => {
+            gameRunning = true;
+            ball.reset();
+        }, 1500)
     }
 
     table.draw();
