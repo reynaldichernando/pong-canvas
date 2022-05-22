@@ -128,6 +128,7 @@ let angle;
 let modifier;
 let counter;
 let gameRunning;
+let isPaused;
 
 let paddleWidth;
 let paddleHeight;
@@ -154,6 +155,7 @@ function init() {
     modifier = 6;
     counter = 0;
     gameRunning = true;
+    isPaused = false;
 
     paddleWidth = 4;
     paddleHeight = 100;
@@ -180,11 +182,14 @@ function init() {
     table = new Table();
 
     playerScore = 0;
+    document.querySelector('#player').innerHTML = playerScore;
     opponentScore = 0;
+    document.querySelector('#opponent').innerHTML = opponentScore;
 }
 
 function animate() {
-    animationId = requestAnimationFrame(animate);
+    if (!isPaused)
+        animationId = requestAnimationFrame(animate);
 
     counter += 1;
     if (counter == 60) counter = 0;
@@ -285,13 +290,16 @@ let keys = [];
 
 window.addEventListener('keydown', (event) => {
     keys[event.key] = true;
+    if (event.key == 'p' && !!animationId) {
+        togglePause();
+    }
 });
 
 window.addEventListener('keyup', (event) => {
     delete keys[event.key];
 });
 
-function handleWelcomeMenu () {
+function handleWelcomeMenu() {
     document.querySelector('#welcome-menu').style.display = "none";
     document.querySelector('#start-menu').style.display = "block";
 
@@ -302,10 +310,27 @@ function handleWelcomeMenu () {
 window.addEventListener('keydown', handleWelcomeMenu);
 document.querySelector('#menu').addEventListener('click', handleWelcomeMenu);
 
-function handlePlayButton () {
+function handlePlayButton() {
     document.querySelector('#menu').style.display = "none";
     init();
     animate();
 }
 
+function togglePause() {
+    isPaused = !isPaused;
+    document.querySelector('#pause-menu').style.display = isPaused ? "flex" : "none";
+    animate();
+}
+
+function handleExitButton() {
+    isPaused = false;
+    document.querySelector('#pause-menu').style.display = "none";
+    gameRunning = false;
+    animationId = null;
+
+    document.querySelector('#menu').style.display = "flex";
+}
+
 document.querySelector('#play').addEventListener('click', handlePlayButton);
+document.querySelector('#continue').addEventListener('click', togglePause);
+document.querySelector('.exit').addEventListener('click', handleExitButton);
