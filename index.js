@@ -129,6 +129,7 @@ let modifier;
 let counter;
 let gameRunning;
 let isPaused;
+let winningScore = 5;
 
 let paddleWidth;
 let paddleHeight;
@@ -274,7 +275,7 @@ function animate() {
             document.querySelector('#player').innerHTML = ++playerScore;
         }
 
-        if (opponentScore == 5 || playerScore == 5) {
+        if (opponentScore == winningScore || playerScore == winningScore) {
             isPaused = true;
             gameRunning = false;
             document.querySelector('#game-over').style.display = "flex";
@@ -294,19 +295,6 @@ function animate() {
     ball.update();
 }
 
-let keys = [];
-
-window.addEventListener('keydown', (event) => {
-    keys[event.key] = true;
-    if (event.key == 'p' && !!animationId) {
-        togglePause();
-    }
-});
-
-window.addEventListener('keyup', (event) => {
-    delete keys[event.key];
-});
-
 function handleWelcomeMenu() {
     document.querySelector('#welcome-menu').style.display = "none";
     document.querySelector('#start-menu').style.display = "block";
@@ -314,9 +302,6 @@ function handleWelcomeMenu() {
     window.removeEventListener('keydown', handleWelcomeMenu);
     document.querySelector('#menu').removeEventListener('click', handleWelcomeMenu);
 }
-
-window.addEventListener('keydown', handleWelcomeMenu);
-document.querySelector('#menu').addEventListener('click', handleWelcomeMenu);
 
 function handlePlayButton() {
     document.querySelector('#start-menu').style.display = "none";
@@ -335,6 +320,23 @@ function handleStartButton(difficulty = "medium") {
     animate();
 }
 
+function handleOptionsButton() {
+    document.querySelector('#start-menu').style.display = "none";
+    document.querySelector('#options-menu').style.display = "block";
+
+    document.querySelector('#win-score').innerHTML = winningScore;
+}
+
+function handleDecrWinScore() {
+    if (winningScore == 1) return;
+    document.querySelector('#win-score').innerHTML = --winningScore;
+}
+
+function handleIncrWinScore() {
+    if (winningScore == 15) return;
+    document.querySelector('#win-score').innerHTML = ++winningScore;
+}
+
 function togglePause() {
     isPaused = !isPaused;
     document.querySelector('#pause').style.display = isPaused ? "flex" : "none";
@@ -346,6 +348,7 @@ function handleExitButton() {
     document.querySelector('#pause').style.display = "none";
     document.querySelector('#game-over').style.display = "none";
     document.querySelector('#mode-menu').style.display = "none";
+    document.querySelector('#options-menu').style.display = "none";
     gameRunning = false;
     animationId = null;
 
@@ -353,10 +356,30 @@ function handleExitButton() {
     document.querySelector('#start-menu').style.display = "block";
 }
 
+let keys = [];
+
+window.addEventListener('keydown', (event) => {
+    keys[event.key] = true;
+    if (event.key == 'p' && !!animationId) {
+        togglePause();
+    }
+});
+
+window.addEventListener('keyup', (event) => {
+    delete keys[event.key];
+});
+
+window.addEventListener('keydown', handleWelcomeMenu);
+document.querySelector('#menu').addEventListener('click', handleWelcomeMenu);
+
 document.querySelector('#play').addEventListener('click', handlePlayButton);
 document.querySelectorAll('.start').forEach(element => {
     element.addEventListener('click', () => handleStartButton(element.id));
 })
+document.querySelector('#options').addEventListener('click', handleOptionsButton);
+document.querySelector('#decr-win-score').addEventListener('click', handleDecrWinScore);
+document.querySelector('#incr-win-score').addEventListener('click', handleIncrWinScore);
+
 document.querySelector('#continue').addEventListener('click', togglePause);
 document.querySelectorAll('.exit').forEach(element => {
     element.addEventListener('click', handleExitButton);

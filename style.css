@@ -21,6 +21,53 @@ main {
     user-select: none;
 }
 
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8rem;
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 4rem;
+}
+
+ul,ol {
+    margin-top: 50px;
+}
+
+ul li,ol li{
+    text-align: center;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+ul li:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+ul li:active{
+    opacity: 0.2;
+    cursor: pointer;
+}
+
+ol li {
+    display: flex;
+}
+
+span.label {
+    margin-right: 20px;
+}
+
+span.control {
+    display: flex;
+}
+
+span.value {
+    padding: 0 20px;
+}
+
 #scoreboard {
     width: 100%;
     display: flex;
@@ -47,14 +94,8 @@ main {
     align-items: center;
 }
 
-h1 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 8rem;
-}
-
-h2 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 4rem;
+#menu .exit {
+    margin-top: 40px;
 }
 
 #welcome-menu {
@@ -66,25 +107,12 @@ h2 {
     display: none;
 }
 
-ul {
-    margin-top: 50px;
+#mode-menu {
+    display: none;
 }
 
-ul li{
-    text-align: center;
-    display: block;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-}
-
-ul li:hover{
-    opacity: 0.5;
-    cursor: pointer;
-}
-
-ul li:active{
-    opacity: 0.2;
-    cursor: pointer;
+#options-menu {
+    display: none;
 }
 
 #pause {
@@ -111,10 +139,17 @@ ul li:active{
     background-color: rgba(0, 0, 0, 0.9);
 }
 
-#mode-menu {
-    display: none;
+#options-menu svg {
+    width: 1.5rem;
+    border: 1px solid white;
+    border-radius: 3px;
+    cursor: pointer;
 }
 
-#mode-menu .exit {
-    margin-top: 40px;
+#options-menu svg:hover {
+    opacity: 0.5;
+}
+
+#options-menu svg:active {
+    opacity: 0.2;
 }

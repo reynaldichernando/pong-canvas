@@ -24,7 +24,7 @@
             <div id="start-menu">
                 <ul>
                     <li id="play">Play</li>
-                    <li>Options</li>
+                    <li id="options">Options</li>
                 </ul>
             </div>
             <div id="mode-menu">
@@ -35,7 +35,27 @@
                     <li class="exit">Back to Main Menu</li>
                 </ul>
             </div>
-
+            <div id="options-menu">
+                <ol>
+                    <li>
+                        <span class="label">Scores to Win</span>
+                        <span class="control">
+                            <svg id="decr-win-score" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                            </svg>
+                            <span class="value" id="win-score">0</span>
+                            <svg id="incr-win-score" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                            </svg>
+                        </span>
+                    </li>
+                </ol>
+                <ul>
+                    <li class="exit">Back to Main Menu</li>
+                </ul>
+            </div>
         </div>
         <div id="pause">
             <h2>Paused</h2>
