@@ -337,13 +337,13 @@ function handleStartButton(difficulty = "medium") {
 
 function togglePause() {
     isPaused = !isPaused;
-    document.querySelector('#pause-menu').style.display = isPaused ? "flex" : "none";
+    document.querySelector('#pause').style.display = isPaused ? "flex" : "none";
     animate();
 }
 
 function handleExitButton() {
     isPaused = false;
-    document.querySelector('#pause-menu').style.display = "none";
+    document.querySelector('#pause').style.display = "none";
     document.querySelector('#game-over').style.display = "none";
     document.querySelector('#mode-menu').style.display = "none";
     gameRunning = false;

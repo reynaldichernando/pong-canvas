@@ -87,7 +87,7 @@ ul li:active{
     cursor: pointer;
 }
 
-#pause-menu {
+#pause {
     position: absolute;
     width: 800px;
     height: 600px;
