@@ -54,10 +54,11 @@ ul li:active{
 
 ol li {
     display: flex;
+    justify-content: space-between;
 }
 
 span.label {
-    margin-right: 20px;
+    margin-right: 60px;
 }
 
 span.control {
@@ -65,7 +66,7 @@ span.control {
 }
 
 span.value {
-    padding: 0 20px;
+    width: 50px;
 }
 
 #scoreboard {

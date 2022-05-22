@@ -130,6 +130,7 @@ let counter;
 let gameRunning;
 let isPaused;
 let winningScore = 5;
+let speedModifier = 10;
 
 let paddleWidth;
 let paddleHeight;
@@ -226,7 +227,7 @@ function animate() {
             angle = 0.90 * Math.PI * 2;
         }
 
-        ball.modifier *= 1.05
+        ball.modifier *= 1 + (speedModifier/100)
 
         ball.direction = {
             x: Math.cos(angle),
@@ -258,7 +259,7 @@ function animate() {
             angle = 0.60 * Math.PI * 2;
         }
 
-        ball.modifier *= 1.05
+        ball.modifier *= 1 + (speedModifier/100)
 
         ball.direction = {
             x: Math.cos(angle),
@@ -325,6 +326,7 @@ function handleOptionsButton() {
     document.querySelector('#options-menu').style.display = "block";
 
     document.querySelector('#win-score').innerHTML = winningScore;
+    document.querySelector('#speed-modifier').innerHTML = speedModifier;
 }
 
 function handleDecrWinScore() {
@@ -335,6 +337,18 @@ function handleDecrWinScore() {
 function handleIncrWinScore() {
     if (winningScore == 15) return;
     document.querySelector('#win-score').innerHTML = ++winningScore;
+}
+
+function handleDecrSpeedModifier() {
+    if (speedModifier == 5) return;
+    speedModifier -= 5;
+    document.querySelector('#speed-modifier').innerHTML = speedModifier;
+}
+
+function handleIncrSpeedModifier() {
+    if (speedModifier == 80) return;
+    speedModifier += 5;
+    document.querySelector('#speed-modifier').innerHTML = speedModifier;
 }
 
 function togglePause() {
@@ -379,6 +393,9 @@ document.querySelectorAll('.start').forEach(element => {
 document.querySelector('#options').addEventListener('click', handleOptionsButton);
 document.querySelector('#decr-win-score').addEventListener('click', handleDecrWinScore);
 document.querySelector('#incr-win-score').addEventListener('click', handleIncrWinScore);
+
+document.querySelector('#decr-speed-modifier').addEventListener('click', handleDecrSpeedModifier);
+document.querySelector('#incr-speed-modifier').addEventListener('click', handleIncrSpeedModifier);
 
 document.querySelector('#continue').addEventListener('click', togglePause);
 document.querySelectorAll('.exit').forEach(element => {
