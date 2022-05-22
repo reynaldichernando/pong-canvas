@@ -110,3 +110,11 @@ ul li:active{
     align-items: center;
     background-color: rgba(0, 0, 0, 0.9);
 }
+
+#mode-menu {
+    display: none;
+}
+
+#mode-menu .exit {
+    margin-top: 40px;
+}

@@ -319,8 +319,19 @@ window.addEventListener('keydown', handleWelcomeMenu);
 document.querySelector('#menu').addEventListener('click', handleWelcomeMenu);
 
 function handlePlayButton() {
+    document.querySelector('#start-menu').style.display = "none";
+    document.querySelector('#mode-menu').style.display = "block";
+}
+
+function handleStartButton(difficulty = "medium") {
     document.querySelector('#menu').style.display = "none";
     init();
+    let modes = {
+        "easy": 40,
+        "medium": 50,
+        "hard": 55
+    }
+    opponent.difficulty = modes[difficulty];
     animate();
 }
 
@@ -334,13 +345,18 @@ function handleExitButton() {
     isPaused = false;
     document.querySelector('#pause-menu').style.display = "none";
     document.querySelector('#game-over').style.display = "none";
+    document.querySelector('#mode-menu').style.display = "none";
     gameRunning = false;
     animationId = null;
 
     document.querySelector('#menu').style.display = "flex";
+    document.querySelector('#start-menu').style.display = "block";
 }
 
 document.querySelector('#play').addEventListener('click', handlePlayButton);
+document.querySelectorAll('.start').forEach(element => {
+    element.addEventListener('click', () => handleStartButton(element.id));
+})
 document.querySelector('#continue').addEventListener('click', togglePause);
 document.querySelectorAll('.exit').forEach(element => {
     element.addEventListener('click', handleExitButton);
