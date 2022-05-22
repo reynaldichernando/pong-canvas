@@ -291,5 +291,21 @@ window.addEventListener('keyup', (event) => {
     delete keys[event.key];
 });
 
-init();
-animate();
+function handleWelcomeMenu () {
+    document.querySelector('#welcome-menu').style.display = "none";
+    document.querySelector('#start-menu').style.display = "block";
+
+    window.removeEventListener('keydown', handleWelcomeMenu);
+    document.querySelector('#menu').removeEventListener('click', handleWelcomeMenu);
+}
+
+window.addEventListener('keydown', handleWelcomeMenu);
+document.querySelector('#menu').addEventListener('click', handleWelcomeMenu);
+
+function handlePlayButton () {
+    document.querySelector('#menu').style.display = "none";
+    init();
+    animate();
+}
+
+document.querySelector('#play').addEventListener('click', handlePlayButton);
