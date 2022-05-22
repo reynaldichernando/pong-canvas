@@ -266,13 +266,21 @@ function animate() {
         bounce.play();
     }
 
-    if (gameRunning && (ball.x < 0 || ball.x > canvas.width)) {
-        if (ball.x < 0) {
+    if (gameRunning && (ball.x + ball.radius < 0 || ball.x - ball.radius > canvas.width)) {
+        if (ball.x + ball.radius < 0) {
             document.querySelector('#opponent').innerHTML = ++opponentScore;
         }
-        else if (ball.x > canvas.width) {
+        else if (ball.x - ball.radius > canvas.width) {
             document.querySelector('#player').innerHTML = ++playerScore;
         }
+
+        if (opponentScore == 5 || playerScore == 5) {
+            isPaused = true;
+            gameRunning = false;
+            document.querySelector('#game-over').style.display = "flex";
+            return;
+        }
+
         gameRunning = false;
         setTimeout(() => {
             gameRunning = true;
@@ -325,6 +333,7 @@ function togglePause() {
 function handleExitButton() {
     isPaused = false;
     document.querySelector('#pause-menu').style.display = "none";
+    document.querySelector('#game-over').style.display = "none";
     gameRunning = false;
     animationId = null;
 
@@ -333,4 +342,6 @@ function handleExitButton() {
 
 document.querySelector('#play').addEventListener('click', handlePlayButton);
 document.querySelector('#continue').addEventListener('click', togglePause);
-document.querySelector('.exit').addEventListener('click', handleExitButton);
+document.querySelectorAll('.exit').forEach(element => {
+    element.addEventListener('click', handleExitButton);
+})

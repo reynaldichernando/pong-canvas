@@ -47,9 +47,14 @@ main {
     align-items: center;
 }
 
-#menu h1 {
+h1 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 8rem;
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 4rem;
 }
 
 #welcome-menu {
@@ -58,8 +63,11 @@ main {
 }
 
 #start-menu {
-    margin-top: 50px;
     display: none;
+}
+
+ul {
+    margin-top: 50px;
 }
 
 ul li{
@@ -91,11 +99,14 @@ ul li:active{
     background-color: rgba(0, 0, 0, 0.9);
 }
 
-#pause-menu h2 {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 4rem;
-}
+#game-over {
+    position: absolute;
+    width: 800px;
+    height: 600px;
 
-#pause-menu ul {
-    margin-top: 50px;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.9);
 }
